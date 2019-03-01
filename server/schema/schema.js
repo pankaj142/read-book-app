@@ -11,20 +11,6 @@ const {
     GraphQLList
 } = graphql;
 
-var books = [
-    {name: "The wings of Fire", genre:"inspiration", id: '1', authorId: '1'},
-    {name: "What's wrong in that place", genre:"horro", id:'2',authorId: '2'},
-    {name: "Why I am a coder", genre:"inspiration", id:'3', authorId: '3'},
-    {name: "GRaphQL Rocks", genre:"technology", id: '4', authorId: '2'},
-    {name: "Blockchain is what", genre:"technology", id:'5',authorId: '3'},
-    {name: "Cryptocurrency is future", genre:"technology", id:'6', authorId: '3'}
-]
-
-var authors =[
-    {name: "Nagraj manjule", age: 40, id: '1'},
-    {name: "Sanjay lila Bhansali", age: 47, id: '2'},
-    {name: "Raju hirani", age: 45, id: '3'}
-]
 const BookType = new GraphQLObjectType({
     name: 'Book',
     fields: ()=>({
@@ -34,7 +20,6 @@ const BookType = new GraphQLObjectType({
         author: {
             type: AuthorType,
             resolve(parent, args){
-                // return _.find(authors, {id: parent.authorId})
                 return Author.findById(parent.authorId);
             }
         }
@@ -50,7 +35,6 @@ const AuthorType = new GraphQLObjectType({
         books: {
             type: new GraphQLList(BookType),
             resolve(parent, args){
-                // return _.filter(books, {authorId: parent.id})
                 return Book.find({authorId: parent.id})
             }
         }
@@ -66,8 +50,6 @@ const RootQuery = new GraphQLObjectType({
             type: BookType,
             args: {id:{type: GraphQLID}},
             resolve(parent,args){
-                // return _.find(books, {id: args.id})
-                // return Book.find({})
                 return Book.findById(args.id);
             }
         },
@@ -76,7 +58,6 @@ const RootQuery = new GraphQLObjectType({
             type: AuthorType,
             args: {id: {type: GraphQLID}},
             resolve(parent, args){
-                // return _.find(authors, {id: args.id})
                 return Author.findById(args.id)
             }
         },
@@ -95,6 +76,7 @@ const RootQuery = new GraphQLObjectType({
     }
 })
 
+//create update delete queries
 const Mutation = new GraphQLObjectType({
     name: "Mutation",
     fields : {
@@ -130,6 +112,7 @@ const Mutation = new GraphQLObjectType({
         }
     }
 })
+
 module.exports = new GraphQLSchema({
     query: RootQuery,
     mutation: Mutation
