@@ -6,12 +6,16 @@ const {
     GraphQLInt,
     GraphQLSchema,
     GraphQLID,
+    GraphQLList
 } = graphql;
 
 var books = [
     {name: "The wings of Fire", genre:"inspiration", id: '1', authorId: '1'},
     {name: "What's wrong in that place", genre:"horro", id:'2',authorId: '2'},
-    {name: "Why I am a coder", genre:"inspiration", id:'3', authorId: '3'}
+    {name: "Why I am a coder", genre:"inspiration", id:'3', authorId: '3'},
+    {name: "GRaphQL Rocks", genre:"technology", id: '4', authorId: '2'},
+    {name: "Blockchain is what", genre:"technology", id:'5',authorId: '3'},
+    {name: "Cryptocurrency is future", genre:"technology", id:'6', authorId: '3'}
 ]
 
 var authors =[
@@ -40,7 +44,13 @@ const AuthorType = new GraphQLObjectType({
     fields: ()=>({
         id: { type:GraphQLID},
         name: {type: GraphQLString},
-        age: {type: GraphQLInt}
+        age: {type: GraphQLInt},
+        books: {
+            type: new GraphQLList(BookType),
+            resolve(parent, args){
+                return _.filter(books, {authorId: parent.id})
+            }
+        }
     })
 })
 
@@ -72,5 +82,5 @@ module.exports = new GraphQLSchema({
 
 //Schema tasks
 //1. Define object Types
-//2. Defien the relation between those object types
+//2. Define the relation between those object types
 //3. Define how client interact with data from Object Type
