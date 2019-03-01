@@ -1,6 +1,12 @@
 const express = require('express');
 const graphqlHTTP = require('express-graphql');
+const mongoose = require('mongoose');
 const port = process.env.PORT || 3000;
+
+mongoose.connect('mongodb://localhost:27017/readBookDB');
+mongoose.connection.once('open', ()=>{
+    console.log("Database is connected");
+})
 
 const schema = require('./schema/schema');
 const app = express();
