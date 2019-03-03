@@ -26,10 +26,15 @@ class BookList extends Component{
     render(){
         return(
             <div>
-                <ul id="book-list" >
-                    {this.displayBooks()}
-                </ul>
-                <BookDetails bookId={this.state.selected} />
+                <div className="col-8">
+                    <h1>My Favourite Books</h1>
+                    <ul id="book-list" >
+                        {this.displayBooks()}
+                    </ul>
+                </div>
+                <div className="col-4">
+                    <BookDetails bookId={this.state.selected} />
+                </div>
             </div>
         )
     }

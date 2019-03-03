@@ -32,26 +32,37 @@ class AddBook extends Component{
             },
             refetchQueries:[{query: getBooksQuery}]
         });
+
+        this.setState({
+            name: "",
+            genre :"",
+            authorId:""
+          });
     }
     render(){
         return(
             <form id="add-book" onSubmit={this.submitForm.bind(this)}>
                 <div className="field">
                     <label>Book Name: </label>
-                    <input type="text" onChange= {(e)=> this.setState({name: e.target.value})} />
+                    <input type="text"
+                        onChange= {(e)=> this.setState({name: e.target.value})}
+                        value={this.state.name} />
                 </div>
                 <div className="field">
                     <label>Genre: </label>
-                    <input type="text" onChange={(e)=>this.setState({genre: e.target.value})} />
+                    <input type="text" onChange={(e)=>this.setState({genre: e.target.value})}
+                        value={this.state.genre} />
                 </div>
                 <div className="field">
                     <label>Select Author</label>
-                    <select onChange={((e)=>this.setState({authorId: e.target.value}))} >
+                    <select onChange={((e)=>this.setState({authorId: e.target.value}))} 
+                      value={this.state.authorId}>
                         <option>Select Author</option>
                         {this.displayAuthors()}
                     </select>
                 </div>
-                <button>+</button>
+                <button disabled={this.state.name === "" ||
+                    this.state.genre === "" || this.state.authorId === ""} id="submit-add-book">+</button>
             </form>
         )
     }
